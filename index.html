@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wildwood — Plan de Inversión Meta Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --negro: #000000;
+    --blanco: #FFFFFF;
+    --rojo: #FF0000;
+    --gris-oscuro: #4F4F4F;
+    --gris-medio: #9F9F9F;
+    --gris-claro: #2A2A2A;
+    --gris-tabla: #1A1A1A;
+    --gris-fila-alt: #141414;
+    --gris-hover: #222222;
+    --gris-borde: #333333;
+    --max-w: 1100px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Raleway', Arial, sans-serif;
+    background: var(--negro);
+    color: var(--blanco);
+    font-size: 15px;
+    line-height: 1.55;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* HEADER */
+  .site-header {
+    border-bottom: 1px solid var(--blanco);
+    padding: 10px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .site-header span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gris-medio);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* MAIN */
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 48px 48px 80px;
+  }
+
+  /* TITLE BLOCK */
+  .title-block { margin-bottom: 48px; }
+  .red-bar {
+    width: 90px;
+    height: 5px;
+    background: var(--rojo);
+    margin-bottom: 12px;
+  }
+  .title-block h1 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--blanco);
+  }
+  .title-block .subtitle {
+    font-size: 14px;
+    color: var(--gris-medio);
+    font-weight: 600;
+    margin-top: 8px;
+    letter-spacing: .02em;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .section-title-group { flex: 1; }
+  .section-title-group .red-bar { width: 60px; height: 4px; margin-bottom: 8px; }
+  .section-title-group h2 {
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    color: var(--blanco);
+  }
+  .section-subtitle {
+    font-size: 12px;
+    color: var(--gris-medio);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  /* BUDGET INPUT */
+  .budget-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .budget-input-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gris-medio);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .budget-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--gris-borde);
+    background: var(--gris-tabla);
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  .budget-input-wrapper .currency {
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gris-medio);
+  }
+  .budget-input-wrapper input {
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--rojo);
+    border: none;
+    outline: none;
+    width: 140px;
+    text-align: right;
+    background: transparent;
+  }
+  .budget-input-wrapper .flag { font-size: 18px; }
+
+  /* COUNTRY SECTION */
+  .country-section { margin-bottom: 56px; }
+
+  /* NOTE */
+  .note {
+    font-size: 12px;
+    color: var(--gris-medio);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  /* TABLE */
+  .table-wrapper { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr {
+    background: var(--gris-claro);
+    color: var(--blanco);
+  }
+  thead th {
+    padding: 10px 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 11px;
+    color: var(--gris-medio);
+  }
+  thead th.num { text-align: right; }
+
+  tbody tr { border-bottom: 1px solid var(--gris-borde); }
+  tbody tr td { background: var(--gris-tabla); }
+  tbody tr:nth-child(even) td { background: var(--gris-fila-alt); }
+  tbody tr:hover td { background: var(--gris-hover); }
+
+  td {
+    padding: 11px 14px;
+    vertical-align: middle;
+    color: var(--blanco);
+  }
+  td.num {
+    text-align: right;
+    font-family: 'Lato', Arial, sans-serif;
+    font-weight: 700;
+  }
+  td.est {
+    text-align: right;
+    font-family: 'Lato', Arial, sans-serif;
+    font-weight: 400;
+    color: var(--gris-medio);
+  }
+  td.dash { text-align: center; color: var(--gris-borde); font-size: 18px; }
+
+  .etapa-label {
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--blanco);
+  }
+  .etapa-objetivo {
+    font-size: 11px;
+    color: var(--gris-medio);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .etapa-fechas {
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--gris-medio);
+    white-space: nowrap;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag.pre { background: var(--gris-borde); color: var(--gris-medio); }
+  .tag.estreno { background: var(--rojo); color: var(--blanco); }
+
+  .pct {
+    font-family: 'Lato', Arial, sans-serif;
+    color: var(--gris-medio);
+    font-weight: 400;
+    font-size: 12px;
+  }
+  .presupuesto-val {
+    font-family: 'Lato', Arial, sans-serif;
+    font-weight: 700;
+    color: var(--blanco);
+  }
+
+  /* TOTAL ROW */
+  tfoot tr td {
+    border-top: 2px solid var(--gris-medio);
+    padding: 12px 14px;
+    font-weight: 800;
+    font-size: 13px;
+    background: var(--gris-claro);
+    color: var(--blanco);
+  }
+  tfoot td.num {
+    text-align: right;
+    font-family: 'Lato', Arial, sans-serif;
+    font-weight: 700;
+    color: var(--rojo);
+  }
+  tfoot td.est {
+    text-align: right;
+    font-family: 'Lato', Arial, sans-serif;
+    font-weight: 600;
+    color: var(--gris-medio);
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gris-borde);
+    margin: 48px 0;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    border-top: 1px solid var(--blanco);
+    padding: 16px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .site-footer .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .site-footer span {
+    font-size: 11px;
+    color: var(--gris-medio);
+  }
+
+  /* NOTA METODOLÓGICA */
+  .metodologia {
+    background: var(--gris-tabla);
+    border-left: 3px solid var(--gris-borde);
+    padding: 16px 20px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--gris-medio);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 24px 16px 60px; }
+    .site-header, .site-footer { padding: 10px 16px; }
+    .section-header { flex-direction: column; align-items: flex-start; }
+    .budget-input-group { align-items: flex-start; }
+    thead th { font-size: 10px; padding: 8px 10px; }
+    td { padding: 9px 10px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <span>Straight to the Point Agency</span>
+  <span>2026</span>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- TITLE -->
+  <div class="title-block">
+    <div class="red-bar"></div>
+    <h1>Wildwood</h1>
+    <div class="subtitle">Plan de Inversión Meta Ads &nbsp;·&nbsp; Estreno 29 de octubre</div>
+  </div>
+
+  <!-- ARGENTINA -->
+  <div class="country-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="red-bar"></div>
+        <h2>Argentina</h2>
+        <div class="section-subtitle">Segmentación: Gran Buenos Aires</div>
+      </div>
+      <div class="budget-input-group">
+        <label>Presupuesto total</label>
+        <div class="budget-input-wrapper">
+          <span class="flag">🇦🇷</span>
+          <span class="currency">ARS $</span>
+          <input type="number" id="arg-budget" value="1491000" min="0" step="1000" oninput="recalcular('arg')">
+        </div>
+      </div>
+    </div>
+    <p class="note">Las estimaciones se basan en los CPRs y ratios reales de Backrooms. Los valores se recalculan automáticamente al modificar el presupuesto.</p>
+    <div class="table-wrapper">
+      <table id="arg-table">
+        <thead>
+          <tr>
+            <th>Etapa</th>
+            <th>Fechas</th>
+            <th class="num">Presupuesto</th>
+            <th class="num">%</th>
+            <th class="num">Est. Impresiones</th>
+            <th class="num">Est. ThruViews</th>
+            <th class="num">Est. Reproducciones</th>
+            <th class="num">Est. Interacciones</th>
+            <th class="num">Est. Clics</th>
+          </tr>
+        </thead>
+        <tbody id="arg-tbody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"><strong>TOTAL</strong></td>
+            <td class="num" id="arg-total-pres">—</td>
+            <td class="num">100%</td>
+            <td class="est" id="arg-total-imp">—</td>
+            <td class="est" id="arg-total-thru">—</td>
+            <td class="est" id="arg-total-repro">—</td>
+            <td class="est" id="arg-total-inter">—</td>
+            <td class="est" id="arg-total-clics">—</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CHILE -->
+  <div class="country-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="red-bar"></div>
+        <h2>Chile</h2>
+        <div class="section-subtitle">Segmentación: Santiago de Chile</div>
+      </div>
+      <div class="budget-input-group">
+        <label>Presupuesto total</label>
+        <div class="budget-input-wrapper">
+          <span class="flag">🇨🇱</span>
+          <span class="currency">ARS $</span>
+          <input type="number" id="ch-budget" value="994000" min="0" step="1000" oninput="recalcular('ch')">
+        </div>
+      </div>
+    </div>
+    <p class="note">Estimaciones ajustadas con un factor +15% sobre CPR de Argentina, basado en el diferencial histórico de mercado.</p>
+    <div class="table-wrapper">
+      <table id="ch-table">
+        <thead>
+          <tr>
+            <th>Etapa</th>
+            <th>Fechas</th>
+            <th class="num">Presupuesto</th>
+            <th class="num">%</th>
+            <th class="num">Est. Impresiones</th>
+            <th class="num">Est. ThruViews</th>
+            <th class="num">Est. Reproducciones</th>
+            <th class="num">Est. Interacciones</th>
+            <th class="num">Est. Clics</th>
+          </tr>
+        </thead>
+        <tbody id="ch-tbody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"><strong>TOTAL</strong></td>
+            <td class="num" id="ch-total-pres">—</td>
+            <td class="num">100%</td>
+            <td class="est" id="ch-total-imp">—</td>
+            <td class="est" id="ch-total-thru">—</td>
+            <td class="est" id="ch-total-repro">—</td>
+            <td class="est" id="ch-total-inter">—</td>
+            <td class="est" id="ch-total-clics">—</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- NOTA METODOLÓGICA -->
+  <div class="metodologia">
+    Estimaciones calculadas a partir de los ratios reales de la campaña Backrooms (mayo 2026), la de mayor escala y más reciente de Imagem Films. Ratios aplicados: Reproducciones CPR $3.88 ARS · Interacciones CPR $1.01 ARS · R&amp;F $2.29 ARS/persona alcanzada. Chile lleva un ajuste de +15% en CPR por diferencial histórico de mercado. Los valores son proyecciones orientativas sujetas a la optimización del algoritmo.
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <svg viewBox="0 0 200 73" width="60" role="img" aria-label="STP Agency" style="color:#FFFFFF">
+      <rect x="12.5" y="29.8" width="117.5" height="12.7" fill="currentColor"/>
+      <circle cx="161" cy="35.5" r="19" fill="currentColor"/>
+      <text x="181" y="18" font-family="Raleway, Arial, sans-serif" font-size="15" font-weight="700" fill="currentColor">TM</text>
+    </svg>
+    <span>Preparado por STP Agency</span>
+  </div>
+  <span>stptheagency.com &nbsp;·&nbsp; Imagem Films &nbsp;·&nbsp; Wildwood 2026</span>
+</footer>
+
+<script>
+  const RATIOS = {
+    reproducciones: {
+      pct: 0.455,
+      impresiones:   1345967 / 969938,
+      thruviews:     250143  / 969938,
+      repro2:        614648  / 969938,
+      interacciones: 698012  / 969938,
+      clics:         11317   / 969938,
+      label: 'Reproducciones',
+      objetivo: 'Reproducciones',
+      fechas: '22/10 – 28/10',
+      tag: 'pre'
+    },
+    interacciones: {
+      pct: 0.195,
+      impresiones:   278596  / 150000,
+      thruviews:     null,
+      repro2:        17650   / 150000,
+      interacciones: 147890  / 150000,
+      clics:         3011    / 150000,
+      label: 'Interacciones',
+      objetivo: 'Interacciones',
+      fechas: '22/10 – 28/10',
+      tag: 'pre'
+    },
+    reach: {
+      pct: 0.35,
+      impresiones:   1491550 / 977388,
+      thruviews:     null,
+      repro2:        null,
+      interacciones: 271060  / 977388,
+      clics:         5149    / 977388,
+      label: 'Reach & Frequency',
+      objetivo: 'Reconocimiento',
+      fechas: '29/10 – 08/11',
+      tag: 'estreno'
+    }
+  };
+
+  const ETAPAS = ['reproducciones', 'interacciones', 'reach'];
+
+  function fmt(n) {
+    if (n == null) return '<span style="color:#333;font-size:16px;">—</span>';
+    return '~' + Math.round(n).toLocaleString('es-AR');
+  }
+  function fmtPres(n) {
+    return '$' + Math.round(n).toLocaleString('es-AR');
+  }
+
+  function recalcular(pais) {
+    const factor = pais === 'ch' ? 1.15 : 1.0;
+    const budget = parseFloat(document.getElementById(pais + '-budget').value) || 0;
+    const tbody = document.getElementById(pais + '-tbody');
+    tbody.innerHTML = '';
+
+    let totImp = 0, totThru = 0, totRepro = 0, totInter = 0, totClics = 0, totPres = 0;
+
+    ETAPAS.forEach(key => {
+      const r = RATIOS[key];
+      const gasto = budget * r.pct;
+      const f = factor;
+
+      const imp   = r.impresiones   ? gasto * r.impresiones   / f : null;
+      const thru  = r.thruviews     ? gasto * r.thruviews     / f : null;
+      const repro = r.repro2        ? gasto * r.repro2        / f : null;
+      const inter = r.interacciones ? gasto * r.interacciones / f : null;
+      const clics = r.clics         ? gasto * r.clics         / f : null;
+
+      if (imp)   totImp   += imp;
+      if (thru)  totThru  += thru;
+      if (repro) totRepro += repro;
+      if (inter) totInter += inter;
+      if (clics) totClics += clics;
+      totPres += gasto;
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="etapa-label">${r.label}</div>
+          <div class="etapa-objetivo"><span class="tag ${r.tag}">${r.objetivo}</span></div>
+        </td>
+        <td class="etapa-fechas">${r.fechas}</td>
+        <td class="num presupuesto-val">${fmtPres(gasto)}</td>
+        <td class="num pct">${(r.pct * 100).toFixed(1)}%</td>
+        <td class="est">${fmt(imp)}</td>
+        <td class="est">${fmt(thru)}</td>
+        <td class="est">${fmt(repro)}</td>
+        <td class="est">${fmt(inter)}</td>
+        <td class="est">${fmt(clics)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById(pais + '-total-pres').textContent  = fmtPres(totPres);
+    document.getElementById(pais + '-total-imp').innerHTML   = fmt(totImp);
+    document.getElementById(pais + '-total-thru').innerHTML  = fmt(totThru);
+    document.getElementById(pais + '-total-repro').innerHTML = fmt(totRepro);
+    document.getElementById(pais + '-total-inter').innerHTML = fmt(totInter);
+    document.getElementById(pais + '-total-clics').innerHTML = fmt(totClics);
+  }
+
+  recalcular('arg');
+  recalcular('ch');
+</script>
+</body>
+</html>
