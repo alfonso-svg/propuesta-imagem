@@ -358,7 +358,6 @@
             <th class="num">Est. Impresiones</th>
             <th class="num">Est. ThruViews</th>
             <th class="num">Est. Reproducciones</th>
-            <th class="num">Est. Interacciones</th>
             <th class="num">Est. Clics</th>
           </tr>
         </thead>
@@ -371,7 +370,6 @@
             <td class="est" id="arg-total-imp">—</td>
             <td class="est" id="arg-total-thru">—</td>
             <td class="est" id="arg-total-repro">—</td>
-            <td class="est" id="arg-total-inter">—</td>
             <td class="est" id="arg-total-clics">—</td>
           </tr>
         </tfoot>
@@ -410,7 +408,6 @@
             <th class="num">Est. Impresiones</th>
             <th class="num">Est. ThruViews</th>
             <th class="num">Est. Reproducciones</th>
-            <th class="num">Est. Interacciones</th>
             <th class="num">Est. Clics</th>
           </tr>
         </thead>
@@ -423,7 +420,6 @@
             <td class="est" id="ch-total-imp">—</td>
             <td class="est" id="ch-total-thru">—</td>
             <td class="est" id="ch-total-repro">—</td>
-            <td class="est" id="ch-total-inter">—</td>
             <td class="est" id="ch-total-clics">—</td>
           </tr>
         </tfoot>
@@ -433,7 +429,7 @@
 
   <!-- NOTA METODOLÓGICA -->
   <div class="metodologia">
-    Estimaciones calculadas a partir de los ratios reales de la campaña Backrooms (mayo 2026), la de mayor escala y más reciente de Imagem Films. Ratios aplicados: Reproducciones CPR $3.88 ARS · Interacciones CPR $1.01 ARS · R&amp;F $2.29 ARS/persona alcanzada. Chile lleva un ajuste de +15% en CPR por diferencial histórico de mercado. Los valores son proyecciones orientativas sujetas a la optimización del algoritmo.
+    Estimaciones calculadas a partir de los ratios reales de la campaña Backrooms (mayo 2026), la de mayor escala y más reciente de Imagem Films. Ratios aplicados: Reproducciones CPR $3.88 ARS · Reach Broad $1.55 ARS/persona (estimación sin benchmark propio, audiencia amplia GBA/Santiago) · R&amp;F $2.29 ARS/persona alcanzada (audiencia caliente). Chile lleva un ajuste de +15% en CPR por diferencial histórico de mercado. Los valores son proyecciones orientativas sujetas a la optimización del algoritmo.
   </div>
 
 </main>
@@ -452,9 +448,11 @@
 </footer>
 
 <script>
+  // Ratios de Backrooms (base histórica)
+  // Reach broad etapa 1: estimado a $1.55 ARS/persona, frecuencia ~2x, CPM ~$550 ARS
   const RATIOS = {
     reproducciones: {
-      pct: 0.455,
+      pct: 0.45,
       impresiones:   1345967 / 969938,
       thruviews:     250143  / 969938,
       repro2:        614648  / 969938,
@@ -465,19 +463,19 @@
       fechas: '22/10 – 28/10',
       tag: 'pre'
     },
-    interacciones: {
-      pct: 0.195,
-      impresiones:   278596  / 150000,
+    reach_broad: {
+      pct: 0.20,
+      impresiones:   550 / 1000,      // CPM estimado ~$550 ARS broad
       thruviews:     null,
-      repro2:        17650   / 150000,
-      interacciones: 147890  / 150000,
-      clics:         3011    / 150000,
-      label: 'Interacciones',
-      objetivo: 'Interacciones',
+      repro2:        null,
+      interacciones: null,
+      clics:         5149 / 977388 * 0.7, // ratio clics estimado proporcional broad
+      label: 'Reach Broad',
+      objetivo: 'Reconocimiento',
       fechas: '22/10 – 28/10',
       tag: 'pre'
     },
-    reach: {
+    reach_rf: {
       pct: 0.35,
       impresiones:   1491550 / 977388,
       thruviews:     null,
@@ -491,7 +489,7 @@
     }
   };
 
-  const ETAPAS = ['reproducciones', 'interacciones', 'reach'];
+  const ETAPAS = ['reproducciones', 'reach_broad', 'reach_rf'];
 
   function fmt(n) {
     if (n == null) return '<span style="color:#333;font-size:16px;">—</span>';
@@ -507,23 +505,21 @@
     const tbody = document.getElementById(pais + '-tbody');
     tbody.innerHTML = '';
 
-    let totImp = 0, totThru = 0, totRepro = 0, totInter = 0, totClics = 0, totPres = 0;
+    let totImp = 0, totThru = 0, totRepro = 0, totClics = 0, totPres = 0;
 
     ETAPAS.forEach(key => {
       const r = RATIOS[key];
       const gasto = budget * r.pct;
       const f = factor;
 
-      const imp   = r.impresiones   ? gasto * r.impresiones   / f : null;
-      const thru  = r.thruviews     ? gasto * r.thruviews     / f : null;
-      const repro = r.repro2        ? gasto * r.repro2        / f : null;
-      const inter = r.interacciones ? gasto * r.interacciones / f : null;
-      const clics = r.clics         ? gasto * r.clics         / f : null;
+      const imp   = r.impresiones ? gasto * r.impresiones / f : null;
+      const thru  = r.thruviews   ? gasto * r.thruviews   / f : null;
+      const repro = r.repro2      ? gasto * r.repro2      / f : null;
+      const clics = r.clics       ? gasto * r.clics       / f : null;
 
       if (imp)   totImp   += imp;
       if (thru)  totThru  += thru;
       if (repro) totRepro += repro;
-      if (inter) totInter += inter;
       if (clics) totClics += clics;
       totPres += gasto;
 
@@ -539,18 +535,16 @@
         <td class="est">${fmt(imp)}</td>
         <td class="est">${fmt(thru)}</td>
         <td class="est">${fmt(repro)}</td>
-        <td class="est">${fmt(inter)}</td>
         <td class="est">${fmt(clics)}</td>
       `;
       tbody.appendChild(tr);
     });
 
-    document.getElementById(pais + '-total-pres').textContent  = fmtPres(totPres);
-    document.getElementById(pais + '-total-imp').innerHTML   = fmt(totImp);
-    document.getElementById(pais + '-total-thru').innerHTML  = fmt(totThru);
-    document.getElementById(pais + '-total-repro').innerHTML = fmt(totRepro);
-    document.getElementById(pais + '-total-inter').innerHTML = fmt(totInter);
-    document.getElementById(pais + '-total-clics').innerHTML = fmt(totClics);
+    document.getElementById(pais + '-total-pres').textContent = fmtPres(totPres);
+    document.getElementById(pais + '-total-imp').innerHTML    = fmt(totImp);
+    document.getElementById(pais + '-total-thru').innerHTML   = fmt(totThru);
+    document.getElementById(pais + '-total-repro').innerHTML  = fmt(totRepro);
+    document.getElementById(pais + '-total-clics').innerHTML  = fmt(totClics);
   }
 
   recalcular('arg');
