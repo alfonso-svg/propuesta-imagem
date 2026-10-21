@@ -355,6 +355,7 @@
             <th>Fechas</th>
             <th class="num">Presupuesto</th>
             <th class="num">%</th>
+            <th class="num">Est. Alcance</th>
             <th class="num">Est. Impresiones</th>
             <th class="num">Est. ThruViews</th>
             <th class="num">Est. Reproducciones</th>
@@ -367,6 +368,7 @@
             <td colspan="2"><strong>TOTAL</strong></td>
             <td class="num" id="arg-total-pres">—</td>
             <td class="num">100%</td>
+            <td class="est" id="arg-total-alc">—</td>
             <td class="est" id="arg-total-imp">—</td>
             <td class="est" id="arg-total-thru">—</td>
             <td class="est" id="arg-total-repro">—</td>
@@ -405,6 +407,7 @@
             <th>Fechas</th>
             <th class="num">Presupuesto</th>
             <th class="num">%</th>
+            <th class="num">Est. Alcance</th>
             <th class="num">Est. Impresiones</th>
             <th class="num">Est. ThruViews</th>
             <th class="num">Est. Reproducciones</th>
@@ -417,6 +420,7 @@
             <td colspan="2"><strong>TOTAL</strong></td>
             <td class="num" id="ch-total-pres">—</td>
             <td class="num">100%</td>
+            <td class="est" id="ch-total-alc">—</td>
             <td class="est" id="ch-total-imp">—</td>
             <td class="est" id="ch-total-thru">—</td>
             <td class="est" id="ch-total-repro">—</td>
@@ -453,10 +457,10 @@
   const RATIOS = {
     reproducciones: {
       pct: 0.45,
+      alcance:       839328  / 969938,
       impresiones:   1345967 / 969938,
       thruviews:     250143  / 969938,
       repro2:        614648  / 969938,
-      interacciones: 698012  / 969938,
       clics:         11317   / 969938,
       label: 'Reproducciones',
       objetivo: 'Reproducciones',
@@ -465,11 +469,11 @@
     },
     reach_broad: {
       pct: 0.20,
-      impresiones:   550 / 1000,      // CPM estimado ~$550 ARS broad
+      alcance:       1 / 1.55,         // $1.55 ARS/persona estimado broad
+      impresiones:   550 / 1000,       // CPM estimado ~$550 ARS broad
       thruviews:     null,
       repro2:        null,
-      interacciones: null,
-      clics:         5149 / 977388 * 0.7, // ratio clics estimado proporcional broad
+      clics:         5149 / 977388 * 0.7,
       label: 'Reach Broad',
       objetivo: 'Reconocimiento',
       fechas: '22/10 – 28/10',
@@ -477,10 +481,10 @@
     },
     reach_rf: {
       pct: 0.35,
+      alcance:       425951  / 977388,
       impresiones:   1491550 / 977388,
       thruviews:     null,
       repro2:        null,
-      interacciones: 271060  / 977388,
       clics:         5149    / 977388,
       label: 'Reach & Frequency',
       objetivo: 'Reconocimiento',
@@ -505,18 +509,20 @@
     const tbody = document.getElementById(pais + '-tbody');
     tbody.innerHTML = '';
 
-    let totImp = 0, totThru = 0, totRepro = 0, totClics = 0, totPres = 0;
+    let totAlc = 0, totImp = 0, totThru = 0, totRepro = 0, totClics = 0, totPres = 0;
 
     ETAPAS.forEach(key => {
       const r = RATIOS[key];
       const gasto = budget * r.pct;
       const f = factor;
 
+      const alc   = r.alcance     ? gasto * r.alcance     / f : null;
       const imp   = r.impresiones ? gasto * r.impresiones / f : null;
       const thru  = r.thruviews   ? gasto * r.thruviews   / f : null;
       const repro = r.repro2      ? gasto * r.repro2      / f : null;
       const clics = r.clics       ? gasto * r.clics       / f : null;
 
+      if (alc)   totAlc   += alc;
       if (imp)   totImp   += imp;
       if (thru)  totThru  += thru;
       if (repro) totRepro += repro;
@@ -532,6 +538,7 @@
         <td class="etapa-fechas">${r.fechas}</td>
         <td class="num presupuesto-val">${fmtPres(gasto)}</td>
         <td class="num pct">${(r.pct * 100).toFixed(1)}%</td>
+        <td class="est">${fmt(alc)}</td>
         <td class="est">${fmt(imp)}</td>
         <td class="est">${fmt(thru)}</td>
         <td class="est">${fmt(repro)}</td>
@@ -541,6 +548,7 @@
     });
 
     document.getElementById(pais + '-total-pres').textContent = fmtPres(totPres);
+    document.getElementById(pais + '-total-alc').innerHTML    = fmt(totAlc);
     document.getElementById(pais + '-total-imp').innerHTML    = fmt(totImp);
     document.getElementById(pais + '-total-thru').innerHTML   = fmt(totThru);
     document.getElementById(pais + '-total-repro').innerHTML  = fmt(totRepro);
