@@ -355,7 +355,6 @@
             <th>Fechas</th>
             <th class="num">Presupuesto</th>
             <th class="num">%</th>
-            <th class="num">Est. Alcance</th>
             <th class="num">Est. Impresiones</th>
             <th class="num">Est. ThruViews</th>
             <th class="num">Est. Reproducciones</th>
@@ -368,7 +367,6 @@
             <td colspan="2"><strong>TOTAL</strong></td>
             <td class="num" id="arg-total-pres">—</td>
             <td class="num">100%</td>
-            <td class="est" id="arg-total-alc">—</td>
             <td class="est" id="arg-total-imp">—</td>
             <td class="est" id="arg-total-thru">—</td>
             <td class="est" id="arg-total-repro">—</td>
@@ -407,7 +405,6 @@
             <th>Fechas</th>
             <th class="num">Presupuesto</th>
             <th class="num">%</th>
-            <th class="num">Est. Alcance</th>
             <th class="num">Est. Impresiones</th>
             <th class="num">Est. ThruViews</th>
             <th class="num">Est. Reproducciones</th>
@@ -420,7 +417,6 @@
             <td colspan="2"><strong>TOTAL</strong></td>
             <td class="num" id="ch-total-pres">—</td>
             <td class="num">100%</td>
-            <td class="est" id="ch-total-alc">—</td>
             <td class="est" id="ch-total-imp">—</td>
             <td class="est" id="ch-total-thru">—</td>
             <td class="est" id="ch-total-repro">—</td>
@@ -433,7 +429,7 @@
 
   <!-- NOTA METODOLÓGICA -->
   <div class="metodologia">
-    Estimaciones calculadas a partir de los ratios reales de la campaña Backrooms (mayo 2026), la de mayor escala y más reciente de Imagem Films. Ratios aplicados: Reproducciones CPR $3.88 ARS · Reach Broad $1.55 ARS/persona (estimación sin benchmark propio, audiencia amplia GBA/Santiago) · R&amp;F $2.29 ARS/persona alcanzada (audiencia caliente). Chile lleva un ajuste de +15% en CPR por diferencial histórico de mercado. Los valores son proyecciones orientativas sujetas a la optimización del algoritmo.
+    Estimaciones calculadas a partir de los ratios reales de la campaña Backrooms (mayo 2026) y datos reales de Wildwood al 26/10. Ratios aplicados: Reproducciones CPR $3.88 ARS (base Backrooms) · Reach Broad CPM $269 ARS (dato real Wildwood 26/10) · R&amp;F $2.29 ARS/persona alcanzada (base Backrooms, audiencia caliente). Chile lleva un ajuste de +11% en CPR, validado con datos reales de Wildwood. Los valores son proyecciones orientativas sujetas a la optimización del algoritmo.
   </div>
 
 </main>
@@ -452,16 +448,14 @@
 </footer>
 
 <script>
-  // Ratios de Backrooms (base histórica)
-  // Reach broad etapa 1: estimado a $1.55 ARS/persona, frecuencia ~2x, CPM ~$550 ARS
+  const C = 0.85; // factor conservador -15% aplicado a todas las estimaciones
   const RATIOS = {
     reproducciones: {
       pct: 0.45,
-      alcance:       839328  / 969938,
-      impresiones:   1345967 / 969938,
-      thruviews:     250143  / 969938,
-      repro2:        614648  / 969938,
-      clics:         11317   / 969938,
+      impresiones:   1345967 / 969938  * C,
+      thruviews:     250143  / 969938  * C,
+      repro2:        614648  / 969938  * C,
+      clics:         11317   / 969938  * C,
       label: 'Reproducciones',
       objetivo: 'Reproducciones',
       fechas: '22/10 – 28/10',
@@ -469,11 +463,10 @@
     },
     reach_broad: {
       pct: 0.20,
-      alcance:       1 / 1.55,         // $1.55 ARS/persona estimado broad
-      impresiones:   550 / 1000,       // CPM estimado ~$550 ARS broad
+      impresiones:   800340  / 215656  * C,  // base real Wildwood 26/10
       thruviews:     null,
       repro2:        null,
-      clics:         5149 / 977388 * 0.7,
+      clics:         1723    / 215656  * C,
       label: 'Reach Broad',
       objetivo: 'Reconocimiento',
       fechas: '22/10 – 28/10',
@@ -481,11 +474,10 @@
     },
     reach_rf: {
       pct: 0.35,
-      alcance:       425951  / 977388,
-      impresiones:   1491550 / 977388,
+      impresiones:   1491550 / 977388  * C,
       thruviews:     null,
       repro2:        null,
-      clics:         5149    / 977388,
+      clics:         5149    / 977388  * C,
       label: 'Reach & Frequency',
       objetivo: 'Reconocimiento',
       fechas: '29/10 – 08/11',
@@ -504,25 +496,23 @@
   }
 
   function recalcular(pais) {
-    const factor = pais === 'ch' ? 1.15 : 1.0;
+    const factor = pais === 'ch' ? 1.11 : 1.0;
     const budget = parseFloat(document.getElementById(pais + '-budget').value) || 0;
     const tbody = document.getElementById(pais + '-tbody');
     tbody.innerHTML = '';
 
-    let totAlc = 0, totImp = 0, totThru = 0, totRepro = 0, totClics = 0, totPres = 0;
+    let totImp = 0, totThru = 0, totRepro = 0, totClics = 0, totPres = 0;
 
     ETAPAS.forEach(key => {
       const r = RATIOS[key];
       const gasto = budget * r.pct;
       const f = factor;
 
-      const alc   = r.alcance     ? gasto * r.alcance     / f : null;
       const imp   = r.impresiones ? gasto * r.impresiones / f : null;
       const thru  = r.thruviews   ? gasto * r.thruviews   / f : null;
       const repro = r.repro2      ? gasto * r.repro2      / f : null;
       const clics = r.clics       ? gasto * r.clics       / f : null;
 
-      if (alc)   totAlc   += alc;
       if (imp)   totImp   += imp;
       if (thru)  totThru  += thru;
       if (repro) totRepro += repro;
@@ -538,7 +528,6 @@
         <td class="etapa-fechas">${r.fechas}</td>
         <td class="num presupuesto-val">${fmtPres(gasto)}</td>
         <td class="num pct">${(r.pct * 100).toFixed(1)}%</td>
-        <td class="est">${fmt(alc)}</td>
         <td class="est">${fmt(imp)}</td>
         <td class="est">${fmt(thru)}</td>
         <td class="est">${fmt(repro)}</td>
@@ -548,7 +537,6 @@
     });
 
     document.getElementById(pais + '-total-pres').textContent = fmtPres(totPres);
-    document.getElementById(pais + '-total-alc').innerHTML    = fmt(totAlc);
     document.getElementById(pais + '-total-imp').innerHTML    = fmt(totImp);
     document.getElementById(pais + '-total-thru').innerHTML   = fmt(totThru);
     document.getElementById(pais + '-total-repro').innerHTML  = fmt(totRepro);
